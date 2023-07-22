@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
+import { Prisma } from "@prisma/client";
 
-import { CreateUserDto } from "./users.types";
 import { userRepositories } from "./users.repositories";
 
 class UserServices {
@@ -14,7 +14,7 @@ class UserServices {
 
   async findUserByEmail(
     email: string,
-    options: { includePassword: boolean } = { includePassword: false }
+    options: { includePassword: boolean } = { includePassword: false },
   ) {
     const { includePassword } = options;
 
@@ -25,7 +25,7 @@ class UserServices {
       : null;
   }
 
-  async createUser(createUserInput: CreateUserDto) {
+  async createUser(createUserInput: Prisma.UserCreateInput) {
     createUserInput.password = await bcrypt.hash(createUserInput.password, 10);
 
     return userRepositories.createUser(createUserInput);

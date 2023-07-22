@@ -19,6 +19,11 @@ export const signupBodySchema = z.object({
   lastName: z.string({
     required_error: "Last name is required",
   }),
+  avatarUrl: z
+    .string({
+      invalid_type_error: "Avatar url must be a string",
+    })
+    .optional(),
   email: emailSchema,
   password: passwordSchema,
 });

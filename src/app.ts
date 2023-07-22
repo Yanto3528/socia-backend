@@ -8,10 +8,8 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 
 import { errorHandler } from "./middlewares";
-// import { userRouter } from "./features/users/users.routes";
 import { authRouter } from "./features/auth/auth.routes";
-// import { categoryRouter } from "./features/categories/categories.route";
-// import { productRouter } from "./features/products/products.route";
+import { postRouter } from "./features/posts/posts.routes";
 
 const app = express();
 
@@ -21,10 +19,8 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
-// app.use("/api/v1/users/", userRouter);
 app.use("/api/auth", authRouter);
-// app.use("/api/v1/categories/", categoryRouter);
-// app.use("/api/v1/products/", productRouter);
+app.use("/api/posts", postRouter);
 
 app.use(errorHandler);
 

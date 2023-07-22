@@ -1,6 +1,6 @@
-import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
-import { CreateUserDto } from "./users.types";
+import { prisma } from "@/lib/prisma";
 
 class UserRepositories {
   findUsers() {
@@ -15,7 +15,7 @@ class UserRepositories {
     return prisma.user.findUnique({ where: { email } });
   }
 
-  createUser(createUserInput: CreateUserDto) {
+  createUser(createUserInput: Prisma.UserCreateInput) {
     return prisma.user.create({
       data: createUserInput,
     });

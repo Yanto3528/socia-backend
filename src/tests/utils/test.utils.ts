@@ -1,10 +1,19 @@
-import { PrismaClient } from "@prisma/client";
-import { MongoMemoryServer } from "mongodb-memory-server";
+import { MongoMemoryReplSet } from "mongodb-memory-server";
 
 export const createMemoryMongoDbServer = async () => {
-  const mongod = await MongoMemoryServer.create();
+  const mongod = await MongoMemoryReplSet.create({
+    replSet: { count: 1 },
+    instanceOpts: [
+      {
+        storageEngine: "wiredTiger",
+      },
+    ],
+  });
+
+  const dbName = "test";
   const uri = mongod.getUri();
-  const uriWithDb = uri + "testDb";
+  const uriSplits = uri.split("?");
+  const uriWithDb = uriSplits[0] + dbName + `?${uriSplits[1]}`;
 
   const stopServer = async () => {
     return mongod.stop();
@@ -15,10 +24,6 @@ export const createMemoryMongoDbServer = async () => {
 
 export const createTestPrismaClient = async () => {
   const { stopServer, dbUrl } = await createMemoryMongoDbServer();
-  const prismaClient = new PrismaClient({
-    datasources: { db: { url: dbUrl } },
-  });
-  await prismaClient.$connect();
 
-  return { stopServer, prismaClient };
+  return { stopServer, dbUrl };
 };

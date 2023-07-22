@@ -1,42 +1,38 @@
-import { PrismaClient } from "@prisma/client";
-import { mockDeep, mockReset, DeepMockProxy } from "vitest-mock-extended";
-import { ObjectId } from "bson";
 import jwt from "jsonwebtoken";
 
-import { prisma } from "../lib/prisma";
+import { prisma, createPrismaInstance } from "../lib/prisma";
+
+import { createTestPrismaClient } from "./utils/test.utils";
 
 declare global {
-  function signin(): string[];
+  function signin(id: string): string[];
 }
 
-vi.mock("../lib/prisma", () => ({
-  __esModule: true,
-  prisma: mockDeep<PrismaClient>(),
-}));
+let stopServer: () => Promise<boolean>;
 
-beforeEach(async () => {
-  mockReset(prismaMock);
+beforeAll(async () => {
+  const result = await createTestPrismaClient();
+  createPrismaInstance(result.dbUrl);
+  stopServer = result.stopServer;
 });
 
-export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
+beforeEach(async () => {
+  vi.clearAllMocks();
+  await prisma.post.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.comment.deleteMany();
+});
 
-global.signin = () => {
+afterAll(() => {
+  stopServer();
+});
+
+global.signin = (id: string) => {
   const payload = {
-    id: new ObjectId().toHexString(),
+    id,
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET!);
-
-  prismaMock.user.findFirst.mockResolvedValue({
-    id: payload.id,
-    firstName: "john",
-    lastName: "doe",
-    email: "test@example.com",
-    password: "password",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    avatarUrl: null,
-  });
 
   return [`token=${token}`];
 };

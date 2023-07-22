@@ -17,33 +17,34 @@ class PostServices {
   }
 
   async updatePost(id: string, userId: string, updatePostInput: UpdatePostDto) {
-    const post = await postRepositories.findPostById(id);
-    if (!post) {
-      throw new NotFoundError("Post not found");
-    }
-
-    if (post?.userId !== userId) {
-      throw new NotAuthorizedError(
-        "You are not authorized to update this post",
-      );
-    }
+    await this.validatePost(
+      id,
+      userId,
+      "You are not authorized to update this post",
+    );
 
     return postRepositories.updatePost(id, updatePostInput);
   }
 
   async deletePost(id: string, userId: string) {
+    await this.validatePost(
+      id,
+      userId,
+      "You are not authorized to delete this post",
+    );
+
+    return postRepositories.deletePost(id);
+  }
+
+  async validatePost(id: string, userId: string, message: string) {
     const post = await postRepositories.findPostById(id);
     if (!post) {
       throw new NotFoundError("Post not found");
     }
 
-    if (post?.userId !== userId) {
-      throw new NotAuthorizedError(
-        "You are not authorized to delete this post",
-      );
+    if (post.userId !== userId) {
+      throw new NotAuthorizedError(message);
     }
-
-    return postRepositories.deletePost(id);
   }
 }
 

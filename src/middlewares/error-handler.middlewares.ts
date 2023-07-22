@@ -6,7 +6,8 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let { message } = err;
 
   if (err.name === "ZodError") {
-    message = err.issues[0].message;
+    const firstIssue = err.issues[0];
+    message = `${firstIssue.path[0]}: ${firstIssue.message}`;
     statusCode = 400;
   }
 

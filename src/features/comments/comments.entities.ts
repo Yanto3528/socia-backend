@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-export const postInclude = Prisma.validator<Prisma.PostInclude>()({
+export const commentInclude = Prisma.validator<Prisma.CommentInclude>()({
   user: {
     select: {
       avatarUrl: true,

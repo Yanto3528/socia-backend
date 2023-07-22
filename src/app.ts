@@ -10,6 +10,7 @@ import helmet from "helmet";
 import { errorHandler } from "./middlewares";
 import { authRouter } from "./features/auth/auth.routes";
 import { postRouter } from "./features/posts/posts.routes";
+import { commentRouter } from "./features/comments/comments.routes";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
+app.use("/api/posts/:postId/comments", commentRouter);
 
 app.use(errorHandler);
 

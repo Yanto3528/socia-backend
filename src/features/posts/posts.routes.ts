@@ -1,22 +1,26 @@
 import express from "express";
 
-import { validateBody } from "@/middlewares";
-import { requireAuth } from "@/middlewares";
+import { validateBody, requireAuth } from "@/middlewares";
 
 import { postControllers } from "./posts.controllers";
-import { createPostSchema } from "./posts.schema";
+import { createPostSchema, updatePostSchema } from "./posts.schema";
 
 const postRouter = express.Router();
+
+postRouter.use(requireAuth);
 
 postRouter.get("/", postControllers.getPosts);
 postRouter.get("/:id", postControllers.getPostById);
 postRouter.post(
   "/",
   validateBody(createPostSchema),
-  requireAuth,
   postControllers.createPost,
 );
-postRouter.put("/:id", requireAuth, postControllers.updatePost);
-postRouter.delete("/:id", requireAuth, postControllers.deletePost);
+postRouter.put(
+  "/:id",
+  validateBody(updatePostSchema),
+  postControllers.updatePost,
+);
+postRouter.delete("/:id", postControllers.deletePost);
 
 export { postRouter };

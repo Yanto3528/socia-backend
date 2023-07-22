@@ -1,24 +1,24 @@
 import { prisma } from "@/lib/prisma";
 
-import { postUserInclude } from "./posts.entities";
+import { postInclude } from "./posts.entities";
 import { CreatePostDto, UpdatePostDto } from "./posts.types";
 
 class PostRepositories {
   findPosts() {
-    return prisma.post.findMany({ include: postUserInclude });
+    return prisma.post.findMany({ include: postInclude });
   }
 
   findPostById(id: string) {
     return prisma.post.findFirst({
       where: { id },
-      include: postUserInclude,
+      include: postInclude,
     });
   }
 
   createPost(createPostInput: CreatePostDto) {
     return prisma.post.create({
       data: createPostInput,
-      include: postUserInclude,
+      include: postInclude,
     });
   }
 
@@ -26,7 +26,7 @@ class PostRepositories {
     return prisma.post.update({
       where: { id },
       data: updatePostInput,
-      include: postUserInclude,
+      include: postInclude,
     });
   }
 

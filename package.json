@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r tsconfig-paths/register ./src/index.ts",
+    "test": "vitest",
     "build": "tsc && tsc-alias",
     "prepare": "husky install",
     "lint:dev": "eslint src/**/*.ts --fix",
@@ -23,6 +24,7 @@
   "dependencies": {
     "@prisma/client": "^5.0.0",
     "bcrypt": "^5.1.0",
+    "bson": "^5.4.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -43,6 +45,7 @@
     "@types/jsonwebtoken": "^9.0.2",
     "@types/morgan": "^1.9.4",
     "@types/node": "^20.4.3",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
     "eslint": "^8.45.0",
@@ -54,13 +57,18 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.0",
+    "husky": "^8.0.0",
     "lint-staged": "^13.2.3",
+    "mongodb-memory-server": "^8.13.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.0",
     "prisma": "^5.0.0",
+    "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.7",
     "tsconfig-paths": "^4.2.0",
-    "husky": "^8.0.0"
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^0.33.0",
+    "vitest-mock-extended": "^1.1.4"
   }
 }

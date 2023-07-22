@@ -30,6 +30,7 @@ export const requireAuth = catchAsync(async (req, res, next) => {
 
   const decoded = (await jwt.verify(token, jwtSecret)) as JwtPayload;
   const user = await prisma.user.findFirst({ where: { id: decoded.id } });
+
   if (!user) {
     return next(
       new NotAuthorizedError("User belonging to this token no longer exists"),

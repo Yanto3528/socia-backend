@@ -6,7 +6,7 @@ import { userServices } from "../users/users.services";
 import { SignUpBodyPayload, LoginBodyPayload } from "./auth.types";
 import { createAndSendToken, matchPassword } from "./auth.helpers";
 
-class AuthController {
+class AuthControllers {
   signUp = catchAsync<SignUpBodyPayload>(async (req, res) => {
     const { email, firstName, lastName, password } = req.body;
 
@@ -37,7 +37,7 @@ class AuthController {
 
     const isPasswordMatch = await matchPassword(
       password,
-      existingUser.password!
+      existingUser.password!,
     );
     if (!isPasswordMatch) {
       throw new BadRequestError("Invalid credentials");
@@ -55,4 +55,4 @@ class AuthController {
   });
 }
 
-export const authController = new AuthController();
+export const authControllers = new AuthControllers();

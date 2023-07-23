@@ -1,6 +1,7 @@
 import { catchAsync } from "@/utils/helper.utils";
 
 import { commentServices } from "./comments.services";
+import { CreateCommentPayload, UpdateCommentPayload } from "./comments.types";
 
 class CommentControllers {
   getCommentsByPostId = catchAsync(async (req, res) => {
@@ -13,12 +14,13 @@ class CommentControllers {
     });
   });
 
-  createComment = catchAsync(async (req, res) => {
+  createComment = catchAsync<CreateCommentPayload>(async (req, res) => {
     const { postId } = req.params;
-    const { content } = req.body;
+    const { content, image } = req.body;
 
     const comment = await commentServices.createComment({
       content,
+      image,
       postId,
       userId: req.user.id,
     });
@@ -29,12 +31,13 @@ class CommentControllers {
     });
   });
 
-  updateComment = catchAsync(async (req, res) => {
+  updateComment = catchAsync<UpdateCommentPayload>(async (req, res) => {
     const { id } = req.params;
-    const { content } = req.body;
+    const { content, image } = req.body;
 
     const comment = await commentServices.updateComment(id, req.user.id, {
       content,
+      image,
     });
 
     res.status(200).json({

@@ -25,11 +25,12 @@ class PostControllers {
   });
 
   createPost = catchAsync<CreatePostPayload>(async (req, res) => {
-    const { content } = req.body;
+    const { content, images } = req.body;
     const user = req.user;
 
     const post = await postServices.createPost({
       content,
+      images,
       userId: user.id,
     });
 

@@ -53,6 +53,25 @@ describe("Posts controllers", () => {
       expect(response.body.data.userId).toBe(user.id);
     });
 
+    test("when passing in the correct images data, it should return created post with correct images", async () => {
+      const user = await createTestUser();
+
+      const response = await request(app)
+        .post("/api/posts")
+        .set("Cookie", global.signin(user.id))
+        .send({
+          content: "test create",
+          images: [{ src: "some-test-url", alt: "test alt" }],
+        })
+        .expect(201);
+
+      expect(response.body.data.content).toBe("test create");
+      expect(response.body.data.userId).toBe(user.id);
+      expect(response.body.data.images).toEqual([
+        { src: "some-test-url", alt: "test alt" },
+      ]);
+    });
+
     test("when passing req.body that has missing content property, it should return 400 error", async () => {
       const user = await createTestUser();
 
@@ -60,6 +79,20 @@ describe("Posts controllers", () => {
         .post("/api/posts")
         .set("Cookie", global.signin(user.id))
         .send({})
+        .expect(400);
+
+      expect(response.body.status).toBe("error");
+    });
+
+    test("when passing req.body with wrong images property, it should return 400 error", async () => {
+      const user = await createTestUser();
+
+      const response = await request(app)
+        .post("/api/posts")
+        .set("Cookie", global.signin(user.id))
+        .send({
+          images: "some-test-url",
+        })
         .expect(400);
 
       expect(response.body.status).toBe("error");

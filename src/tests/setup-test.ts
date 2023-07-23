@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 import { prisma, createPrismaInstance } from "../lib/prisma";
 
-import { createTestPrismaClient } from "./utils/test.utils";
+import { createTestPrismaClient } from "./utils/setup.utils";
 
 declare global {
   function signin(id: string): string[];
@@ -28,10 +28,7 @@ afterAll(() => {
 });
 
 global.signin = (id: string) => {
-  const payload = {
-    id,
-  };
-
+  const payload = { id };
   const token = jwt.sign(payload, process.env.JWT_SECRET!);
 
   return [`token=${token}`];

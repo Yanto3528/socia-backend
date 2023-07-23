@@ -4,10 +4,6 @@ import { commentInclude } from "./comments.entities";
 import { CreateCommentDto, UpdateCommentDto } from "./comments.types";
 
 class CommentRepositories {
-  findComments() {
-    return prisma.comment.findMany({ include: commentInclude });
-  }
-
   findCommentById(id: string) {
     return prisma.comment.findFirst({
       where: { id },

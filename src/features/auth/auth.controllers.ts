@@ -28,7 +28,7 @@ class AuthControllers {
   login = catchAsync<LoginBodyPayload>(async (req, res) => {
     const { email, password } = req.body;
     const existingUser = await userServices.findUserByEmail(email, {
-      includePassword: true,
+      selectPassword: true,
     });
 
     if (!existingUser) {

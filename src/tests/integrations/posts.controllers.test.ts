@@ -37,6 +37,32 @@ describe("Posts controllers", () => {
     });
   });
 
+  describe("GET /api/posts/:id", () => {
+    test("when passing in the correct post id, it should return post", async () => {
+      const user = await createTestUser();
+      const post = await createTestPost(user.id);
+
+      const response = await request(app)
+        .get(`/api/posts/${post.id}`)
+        .set("Cookie", global.signin(user.id))
+        .expect(200);
+
+      expect(response.body.data.id).toBe(post.id);
+    });
+
+    test("when passing in the non existent post id, it should return null data", async () => {
+      const user = await createTestUser();
+      const nonExistPostId = new ObjectId();
+
+      const response = await request(app)
+        .get(`/api/posts/${nonExistPostId}`)
+        .set("Cookie", global.signin(user.id))
+        .expect(200);
+
+      expect(response.body.data).toBe(null);
+    });
+  });
+
   describe("POST /api/posts", () => {
     test("when passing in the correct data, it should return created post with correct user id", async () => {
       const user = await createTestUser();

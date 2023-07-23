@@ -9,6 +9,7 @@ import helmet from "helmet";
 
 import { errorHandler } from "./middlewares";
 import { authRouter } from "./features/auth/auth.routes";
+import { userRouter } from "./features/users/users.routes";
 import { postRouter } from "./features/posts/posts.routes";
 import { commentRouter } from "./features/comments/comments.routes";
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/posts/:postId/comments", commentRouter);
 

@@ -5,10 +5,6 @@ import { commentRepositories } from "./comments.repositories";
 import { CreateCommentDto, UpdateCommentDto } from "./comments.types";
 
 class CommentServices {
-  findComments() {
-    return commentRepositories.findComments();
-  }
-
   findCommentsByPostId(postId: string) {
     return commentRepositories.findCommentsByPostId(postId);
   }

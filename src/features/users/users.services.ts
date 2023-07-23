@@ -14,15 +14,11 @@ class UserServices {
 
   async findUserByEmail(
     email: string,
-    options: { includePassword: boolean } = { includePassword: false },
+    options: { selectPassword: boolean } = { selectPassword: false },
   ) {
-    const { includePassword } = options;
+    const { selectPassword } = options;
 
-    const user = await userRepositories.findUserByEmail(email);
-
-    return user
-      ? { ...user, password: includePassword ? user.password : undefined }
-      : null;
+    return userRepositories.findUserByEmail(email, selectPassword);
   }
 
   async createUser(createUserInput: Prisma.UserCreateInput) {

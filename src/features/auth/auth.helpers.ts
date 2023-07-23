@@ -11,10 +11,6 @@ export const createAndSendToken = (
   const jwtExpires = process.env.JWT_EXPIRES || "";
   const cookieExpiresIn = Number(process.env.COOKIE_EXPIRES_IN) || 1;
 
-  console.log("jwt secret: ", jwtSecret);
-  console.log("jwt expires: ", jwtExpires);
-  console.log("cookie expires in: ", cookieExpiresIn);
-
   const token = jwt.sign({ id }, jwtSecret, {
     expiresIn: jwtExpires,
   });

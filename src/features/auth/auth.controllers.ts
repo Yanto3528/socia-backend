@@ -2,6 +2,7 @@ import { catchAsync } from "@/utils/helper.utils";
 import { BadRequestError } from "@/errors";
 
 import { userServices } from "../users/users.services";
+import { profileServices } from "../profiles/profiles.services";
 
 import { SignUpBodyPayload, LoginBodyPayload } from "./auth.types";
 import { createAndSendToken, matchPassword } from "./auth.helpers";
@@ -20,6 +21,12 @@ class AuthControllers {
       lastName,
       email,
       password,
+    });
+    await profileServices.createProfile({
+      bio: null,
+      dob: null,
+      gender: null,
+      userId: user.id,
     });
 
     createAndSendToken(user.id, res, 201);

@@ -20,6 +20,7 @@ beforeEach(async () => {
   vi.clearAllMocks();
   await prisma.comment.deleteMany();
   await prisma.post.deleteMany();
+  await prisma.profile.deleteMany();
   await prisma.user.deleteMany();
 });
 

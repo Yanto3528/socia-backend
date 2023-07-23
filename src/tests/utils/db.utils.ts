@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 export const createTestUser = async () => {
   const hashedPassword = await bcrypt.hash("password", 10);
 
-  return prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       firstName: "john",
       lastName: "doe",
@@ -14,6 +14,16 @@ export const createTestUser = async () => {
       avatarUrl: null,
     },
   });
+  await prisma.profile.create({
+    data: {
+      bio: null,
+      dob: null,
+      gender: null,
+      userId: user.id,
+    },
+  });
+
+  return user;
 };
 
 export const createTestPost = async (userId: string) => {

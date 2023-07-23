@@ -11,23 +11,23 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  firstName   String
-  lastName    String
-  email       String    @unique
-  password    String
-  avatarUrl   String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  posts       Post[]
-  comments    Comment[]
-  userProfile Profile?
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName  String
+  email     String    @unique
+  password  String
+  avatarUrl String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  posts     Post[]
+  comments  Comment[]
+  profile   Profile?
 }
 
 model Profile {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   bio       String?
-  gender    String?
+  gender    Gender?
   dob       DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -61,4 +61,9 @@ model Comment {
 type Image {
   src String
   alt String
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }

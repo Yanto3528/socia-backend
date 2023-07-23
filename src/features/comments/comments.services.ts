@@ -1,4 +1,5 @@
 import { NotAuthorizedError, NotFoundError } from "@/errors";
+import { postServices } from "@/features/posts/posts.services";
 
 import { commentRepositories } from "./comments.repositories";
 import { CreateCommentDto, UpdateCommentDto } from "./comments.types";
@@ -12,7 +13,12 @@ class CommentServices {
     return commentRepositories.findCommentsByPostId(postId);
   }
 
-  createComment(data: CreateCommentDto) {
+  async createComment(data: CreateCommentDto) {
+    const post = await postServices.findPostById(data.postId);
+    if (!post) {
+      throw new NotFoundError("Post not found");
+    }
+
     return commentRepositories.createComment(data);
   }
 

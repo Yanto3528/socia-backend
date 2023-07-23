@@ -169,12 +169,17 @@ describe("Posts controllers", () => {
       const user = await createTestUser();
       const post = await createTestPost(user.id);
 
-      const response = await request(app)
+      await request(app)
         .delete(`/api/posts/${post.id}`)
         .set("Cookie", global.signin(user.id))
         .expect(204);
 
-      expect(response.body).toEqual({});
+      const response = await request(app)
+        .get("/api/posts")
+        .set("Cookie", global.signin(user.id))
+        .expect(200);
+
+      expect(response.body.data.length).toBe(0);
     });
 
     test("when passing in the non existent post id, it should return 404 error", async () => {

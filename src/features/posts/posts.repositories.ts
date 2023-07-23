@@ -8,7 +8,7 @@ class PostRepositories {
     return prisma.post.findMany({ include: postInclude });
   }
 
-  findPostById(id: string) {
+  findPostById(id: string | undefined) {
     return prisma.post.findFirst({
       where: { id },
       include: postInclude,

@@ -8,7 +8,7 @@ class PostServices {
     return postRepositories.findPosts();
   }
 
-  findPostById(id: string) {
+  findPostById(id: string | undefined) {
     return postRepositories.findPostById(id);
   }
 

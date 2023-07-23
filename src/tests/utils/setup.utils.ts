@@ -1,7 +1,7 @@
 import { MongoMemoryReplSet } from "mongodb-memory-server";
 
 export const createMemoryMongoDbServer = async () => {
-  const mongod = await MongoMemoryReplSet.create({
+  const replSet = await MongoMemoryReplSet.create({
     replSet: { count: 1 },
     instanceOpts: [
       {
@@ -9,14 +9,15 @@ export const createMemoryMongoDbServer = async () => {
       },
     ],
   });
+  await replSet.waitUntilRunning();
 
   const dbName = "test";
-  const uri = mongod.getUri();
+  const uri = replSet.getUri();
   const uriSplits = uri.split("?");
   const uriWithDb = uriSplits[0] + dbName + `?${uriSplits[1]}`;
 
   const stopServer = async () => {
-    return mongod.stop();
+    return replSet.stop();
   };
 
   return { stopServer, dbUrl: uriWithDb };

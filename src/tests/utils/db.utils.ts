@@ -24,3 +24,13 @@ export const createTestPost = async (userId: string) => {
     },
   });
 };
+
+export const createTestComment = async (userId: string, postId: string) => {
+  return prisma.comment.create({
+    data: {
+      content: "test content",
+      userId,
+      postId,
+    },
+  });
+};

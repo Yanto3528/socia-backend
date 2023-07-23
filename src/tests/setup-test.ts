@@ -18,9 +18,9 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   vi.clearAllMocks();
+  await prisma.comment.deleteMany();
   await prisma.post.deleteMany();
   await prisma.user.deleteMany();
-  await prisma.comment.deleteMany();
 });
 
 afterAll(() => {

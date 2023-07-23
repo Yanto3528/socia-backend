@@ -2,15 +2,15 @@ import jwt from "jsonwebtoken";
 import { Response } from "express";
 import bcrypt from "bcrypt";
 
-const jwtSecret = process.env.JWT_SECRET || "";
-const jwtExpires = process.env.JWT_EXPIRES || "";
-const cookieExpiresIn = Number(process.env.COOKIE_EXPIRES_IN) || 1;
-
 export const createAndSendToken = (
   id: string,
   res: Response,
-  statusCode = 200
+  statusCode = 200,
 ) => {
+  const jwtSecret = process.env.JWT_SECRET || "";
+  const jwtExpires = process.env.JWT_EXPIRES || "";
+  const cookieExpiresIn = Number(process.env.COOKIE_EXPIRES_IN) || 1;
+
   const token = jwt.sign({ id }, jwtSecret, {
     expiresIn: jwtExpires,
   });
@@ -28,5 +28,5 @@ export const createAndSendToken = (
 
 export const matchPassword = async (
   plainPassword: string,
-  hashedPassword: string
+  hashedPassword: string,
 ) => bcrypt.compare(plainPassword, hashedPassword);
